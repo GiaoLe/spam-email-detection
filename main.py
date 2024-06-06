@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 
-data = pd.read_csv('Spam Email raw text for NLP.csv')
+data = pd.read_csv('spam_ham_email_dataset.csv')
 
 stop_words = set(stopwords.words('english'))
 
@@ -47,8 +47,9 @@ def get_sequences(texts, tokenizer, train=True, max_seq_length=None):
 df = data.copy()
 
 # Split df into X and y
-y = df['CATEGORY']
-X = df['MESSAGE']
+y = df['label']
+y = y.map({'ham': 0, 'spam': 1})
+X = df['text']
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7, shuffle=True, random_state=1)
